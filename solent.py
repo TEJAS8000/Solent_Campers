@@ -1,9 +1,10 @@
 import tkinter as tk
 import tkinter.ttk as ttk
 from tkinter import messagebox, Frame
-import json
 from tkcalendar import DateEntry
-
+from tkinter.filedialog import asksaveasfile
+from csv import DictWriter
+import json
 
 # sys.stdout = open('BACKUP/output.txt', 'w')
 # sys.stderr = open('BACKUP/error.txt', 'w')
@@ -168,8 +169,74 @@ def main():
                 self.textfield13_add = ttk.Combobox(self.tab1, font=("Helvetica", 10), state='readonly')
                 self.textfield13_add.place(x=600, y=490, width=300)
 
-                self.btn_add_ok1 = ttk.Button(self.tab1, text="Save Settings")
+                self.btn_add_ok1 = ttk.Button(self.tab1, text="Save Booking", command=self.validate)
                 self.btn_add_ok1.place(x=60, y=545, width=200, height=35)
+
+            def validate(self):
+                messagebox.showinfo("Warning", "Please ensure fields have been filled.")
+
+                if (str(self.textfield1_add.get()) != "") and (str(self.textfield2_add.get()) != "") and (
+                        str(self.textfield3_add.get()) != "") and (str(self.textfield4_add.get()) != "") and (
+                        str(self.textfield7_add.get()) != "") and (str(self.textfield8_add.get()) != "") and (
+                        str(self.textfield9_add.get()) != "") and (str(self.textfield10_add.get()) != "") and (
+                        str(self.textfield11_add.get()) != "") and (str(self.textfield12_add.get()) != "") and (
+                        str(self.textfield13_add.get()) != ""):
+
+                    json_data = {
+                        "van_name": str(self.textfield1_add.get()),
+                        "van_type": str(self.textfield2_add.get()),
+                        "van_capacity": str(self.textfield3_add.get()),
+                        "van_price": str(self.textfield4_add.get()),
+                        "user_name": str(self.textfield7_add.get()),
+                        "id_card": str(self.textfield8_add.get()),
+                        "no_of_travellers": str(self.textfield9_add.get()),
+                        "journey_date": str(self.textfield10_add.get()),
+                        "return_date": str(self.textfield11_add.get()),
+                        "region": str(self.textfield12_add.get()),
+                        "sub_region": str(self.textfield13_add.get())
+                    }
+
+                    json_object = json.dumps(json_data, indent=4)
+
+                    # Writing to sample.json
+                    f = asksaveasfile(initialfile='Untitled.json', defaultextension=".json",
+                                      filetypes=[("Json", "*.*")])
+
+                    f.write(json_object)
+                    f.close()
+
+                    field_names = ['Van Name', 'Van type', 'Van capacity', 'Van Price',	'User Name', 'Driver ID Number',
+                                   'No Of Travellers', 'Journey Date',	'Return Date',	'Region', 'Sub Region']
+
+                    booking = {'Van Name': str(self.textfield1_add.get()), 'Van type': str(self.textfield2_add.get()),
+                               'Van capacity': str(self.textfield3_add.get()),
+                               'Van Price': str(self.textfield4_add.get()), 'User Name': str(self.textfield7_add.get()),
+                               'Driver ID Number': str(self.textfield8_add.get()),
+                               'No Of Travellers': str(self.textfield9_add.get()),
+                               'Journey Date': str(self.textfield10_add.get()),
+                               'Return Date': str(self.textfield11_add.get()),
+                               'Region': str(self.textfield12_add.get()), 'Sub Region': str(self.textfield13_add.get())}
+
+                    # Open your CSV file in append mode
+                    # Create a file object for this file
+                    with open('bookings.csv', 'a') as f_object:
+
+                        # Pass the file object and a list
+                        # of column names to DictWriter()
+                        # You will get a object of DictWriter
+                        dictwriter_object = DictWriter(f_object, fieldnames=field_names)
+
+                        # Pass the dictionary as an argument to the Writerow()
+                        dictwriter_object.writerow(booking)
+
+                        # Close the file object
+                        f_object.close()
+
+                    messagebox.showinfo("Successfully", "The data saved into Json Data successfully")
+                    window_user_login.destroy()
+                    user_login()
+                else:
+                    messagebox.showerror("Operation failed", "The data cannot be saved. Enter data invalid")
 
         def exits():
 
