@@ -2,6 +2,7 @@ import tkinter as tk
 import tkinter.ttk as ttk
 from tkinter import messagebox, Frame
 import json
+from tkcalendar import DateEntry
 
 
 # sys.stdout = open('BACKUP/output.txt', 'w')
@@ -75,7 +76,7 @@ def main():
                 def selectItem(a):
 
                     cur_item = self.tree.focus()
-                    print(self.tree.item(cur_item)["values"][0])
+                    print(self.tree.item(cur_item)["values"][0], a)
 
                     self.textfield1_add.set(self.tree.item(cur_item)["values"][0])
                     self.textfield2_add.set(self.tree.item(cur_item)["values"][1])
@@ -109,6 +110,57 @@ def main():
 
                 self.btn_add_ok1 = ttk.Button(self.tab1, text="Save Settings")
                 self.btn_add_ok1.place(x=60, y=545, width=200, height=35)
+
+                self.lb7 = tk.Label(self.tab3, text="User Name", font=("Helvetica", 10), bg='#EFEFEF')
+                self.lb7.place(x=60, y=60)
+
+                self.textfield7_add = ttk.Entry(self.tab3, font=("Helvetica", 10))
+                self.textfield7_add.place(x=180, y=60, width=720)
+
+                self.lb8 = tk.Label(self.tab3, text="Driving Card Id", font=("Helvetica", 10), bg='#EFEFEF')
+                self.lb8.place(x=60, y=90)
+
+                self.textfield8_add = ttk.Entry(self.tab3, font=("Helvetica", 10))
+                self.textfield8_add.place(x=180, y=90, width=300)
+
+                self.lb9 = tk.Label(self.tab3, text="Travellers", font=("Helvetica", 10), bg='#EFEFEF')
+                self.lb9.place(x=500, y=90)
+
+                self.textfield9_add = ttk.Entry(self.tab3, font=("Helvetica", 10))
+                self.textfield9_add.place(x=600, y=90, width=300)
+
+                self.lb10 = tk.Label(self.tab3, text="Journey Date", font=("Helvetica", 10), bg='#EFEFEF')
+                self.lb10.place(x=60, y=120)
+
+                self.textfield10_add = DateEntry(self.tab3, font=("Helvetica", 10), state='readonly',
+                                                 date_pattern='mm/dd/yyyy', anchor='center')
+                self.textfield10_add.place(x=180, y=120, width=300)
+
+                self.lb11 = tk.Label(self.tab3, text="Return Date", font=("Helvetica", 10), bg='#EFEFEF')
+                self.lb11.place(x=500, y=120)
+
+                self.textfield11_add = DateEntry(self.tab3, font=("Helvetica", 10), state='readonly',
+                                                 date_pattern='mm/dd/yyyy', anchor='center')
+                self.textfield11_add.place(x=600, y=120, width=300)
+
+                with open('region.json', 'r') as openfile:
+                    # Reading from json file
+                    json_object = json.load(openfile)
+
+                self.region = json_object["Region"][0]
+                print(self.region)
+
+                self.lb12 = tk.Label(self.tab3, text="Driving Card Id", font=("Helvetica", 10), bg='#EFEFEF')
+                self.lb12.place(x=60, y=180)
+
+                self.textfield12_add = ttk.Entry(self.tab3, font=("Helvetica", 10))
+                self.textfield12_add.place(x=180, y=180, width=300)
+
+                self.lb13 = tk.Label(self.tab3, text="Travellers", font=("Helvetica", 10), bg='#EFEFEF')
+                self.lb13.place(x=500, y=180)
+
+                self.textfield13_add = ttk.Entry(self.tab3, font=("Helvetica", 10))
+                self.textfield13_add.place(x=600, y=180, width=300)
 
         def exits():
 
