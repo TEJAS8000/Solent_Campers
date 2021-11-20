@@ -48,11 +48,46 @@ def main():
                     self.camper_vans.append([each["name"], each["type"], each["capacity"], each["price"],
                                              each["availability"]])
 
+                self.lb1_add = tk.Label(self.tab1, text="Name", font=("Helvetica", 10), bg='#EFEFEF')
+                self.lb1_add.place(x=60, y=40)
+
+                self.textfield1_add = ttk.Combobox(self.tab1, font=("Helvetica", 10), state='readonly')
+                self.textfield1_add.place(x=180, y=40, width=280)
+
+                self.lb2_add = tk.Label(self.tab1, text="Type", font=("Helvetica", 10), bg='#EFEFEF')
+                self.lb2_add.place(x=500, y=40)
+
+                self.textfield2_add = ttk.Combobox(self.tab1, font=("Helvetica", 10), state='readonly')
+                self.textfield2_add.place(x=620, y=40, width=280)
+
+                self.lb3_add = tk.Label(self.tab1, text="Capacity", font=("Helvetica", 10), bg='#EFEFEF')
+                self.lb3_add.place(x=60, y=80)
+
+                self.textfield3_add = ttk.Combobox(self.tab1, font=("Helvetica", 10), state='readonly')
+                self.textfield3_add.place(x=180, y=80, width=280)
+
+                self.lb4_add = tk.Label(self.tab1, text="Price", font=("Helvetica", 10), bg='#EFEFEF')
+                self.lb4_add.place(x=500, y=80)
+
+                self.textfield4_add = ttk.Combobox(self.tab1, font=("Helvetica", 10), state='readonly')
+                self.textfield4_add.place(x=620, y=80, width=280)
+
+                def selectItem(a):
+
+                    cur_item = self.tree.focus()
+                    print(self.tree.item(cur_item)["values"][0])
+
+                    self.textfield1_add.set(self.tree.item(cur_item)["values"][0])
+                    self.textfield2_add.set(self.tree.item(cur_item)["values"][1])
+                    self.textfield3_add.set(self.tree.item(cur_item)["values"][2])
+                    self.textfield4_add.set(self.tree.item(cur_item)["values"][3])
+
                 self.frame = Frame(self.tab1)
                 self.frame.place(x=60, y=300)
 
                 self.tree = ttk.Treeview(self.frame, columns=(1, 2, 3, 4, 5), height=10, show="headings")
                 self.tree.pack(side='left')
+                self.tree.bind('<ButtonRelease-1>', selectItem)
 
                 self.val = ["Name", "Type", "Capacity", "Price", "Availability"]
 
@@ -71,30 +106,6 @@ def main():
                             str(self.camper_vans[i][0]), str(self.camper_vans[i][1]),
                             str(self.camper_vans[i][2]), str(self.camper_vans[i][3]),
                             str(self.camper_vans[i][4])), tags=('odd',))
-
-                self.lb1_add = tk.Label(self.tab1, text="Name", font=("Helvetica", 10), bg='#EFEFEF')
-                self.lb1_add.place(x=60, y=40)
-
-                self.textfield1_add = ttk.Entry(self.tab1, font=("Helvetica", 10), state='readonly')
-                self.textfield1_add.place(x=180, y=40, width=280)
-
-                self.lb2_add = tk.Label(self.tab1, text="Type", font=("Helvetica", 10), bg='#EFEFEF')
-                self.lb2_add.place(x=500, y=40)
-
-                self.textfield2_add = ttk.Entry(self.tab1, font=("Helvetica", 10), state='readonly')
-                self.textfield2_add.place(x=620, y=40, width=280)
-
-                self.lb3_add = tk.Label(self.tab1, text="Capacity", font=("Helvetica", 10), bg='#EFEFEF')
-                self.lb3_add.place(x=60, y=80)
-
-                self.textfield3_add = ttk.Entry(self.tab1, font=("Helvetica", 10), state='readonly')
-                self.textfield3_add.place(x=180, y=80, width=280)
-
-                self.lb4_add = tk.Label(self.tab1, text="Price", font=("Helvetica", 10), bg='#EFEFEF')
-                self.lb4_add.place(x=500, y=80)
-
-                self.textfield4_add = ttk.Entry(self.tab1, font=("Helvetica", 10), state='readonly')
-                self.textfield4_add.place(x=620, y=80, width=280)
 
                 self.btn_add_ok1 = ttk.Button(self.tab1, text="Save Settings")
                 self.btn_add_ok1.place(x=60, y=545, width=200, height=35)
