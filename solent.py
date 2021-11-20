@@ -45,30 +45,56 @@ def main():
                 self.camper_vans = []
 
                 for each in json_object["camper_vans"]:
-                    self.camper_vans.append([each["type"], each["capacity"], each["price"], each["availability"]])
+                    self.camper_vans.append([each["name"], each["type"], each["capacity"], each["price"],
+                                             each["availability"]])
 
                 self.frame = Frame(self.tab1)
                 self.frame.place(x=60, y=300)
 
-                self.tree = ttk.Treeview(self.frame, columns=(1, 2, 3, 4), height=10, show="headings")
+                self.tree = ttk.Treeview(self.frame, columns=(1, 2, 3, 4, 5), height=10, show="headings")
                 self.tree.pack(side='left')
 
-                self.val = ["Type", "Capacity", "Price", "Availability"]
+                self.val = ["Name", "Type", "Capacity", "Price", "Availability"]
 
                 for i in range(1, len(self.val) + 1):
                     self.tree.heading(i, text=self.val[i - 1])
 
                 for i in range(1, len(self.val) + 1):
-                    self.tree.column(i, width=215, anchor='center')
+                    self.tree.column(i, width=180, anchor='center')
 
                 self.scroll1 = ttk.Scrollbar(self.frame, orient="vertical", command=self.tree.yview)
                 self.scroll1.pack(side='right', fill='y')
 
                 for i in range(len(self.camper_vans)):
-                    self.tree.insert('', 'end', values=(
-                        str(self.camper_vans[i][0]), str(self.camper_vans[i][1]),
-                        str(self.camper_vans[i][2]),
-                        str(self.camper_vans[i][3])), tags=('odd',))
+                    if int(self.camper_vans[i][4]) > 0:
+                        self.tree.insert('', 'end', values=(
+                            str(self.camper_vans[i][0]), str(self.camper_vans[i][1]),
+                            str(self.camper_vans[i][2]), str(self.camper_vans[i][3]),
+                            str(self.camper_vans[i][4])), tags=('odd',))
+
+                self.lb1_add = tk.Label(self.tab1, text="Name", font=("Helvetica", 10), bg='#EFEFEF')
+                self.lb1_add.place(x=60, y=40)
+
+                self.textfield1_add = ttk.Entry(self.tab1, font=("Helvetica", 10), state='readonly')
+                self.textfield1_add.place(x=180, y=40, width=280)
+
+                self.lb2_add = tk.Label(self.tab1, text="Type", font=("Helvetica", 10), bg='#EFEFEF')
+                self.lb2_add.place(x=500, y=40)
+
+                self.textfield2_add = ttk.Entry(self.tab1, font=("Helvetica", 10), state='readonly')
+                self.textfield2_add.place(x=620, y=40, width=280)
+
+                self.lb3_add = tk.Label(self.tab1, text="Capacity", font=("Helvetica", 10), bg='#EFEFEF')
+                self.lb3_add.place(x=60, y=80)
+
+                self.textfield3_add = ttk.Entry(self.tab1, font=("Helvetica", 10), state='readonly')
+                self.textfield3_add.place(x=180, y=80, width=280)
+
+                self.lb4_add = tk.Label(self.tab1, text="Price", font=("Helvetica", 10), bg='#EFEFEF')
+                self.lb4_add.place(x=500, y=80)
+
+                self.textfield4_add = ttk.Entry(self.tab1, font=("Helvetica", 10), state='readonly')
+                self.textfield4_add.place(x=620, y=80, width=280)
 
                 self.btn_add_ok1 = ttk.Button(self.tab1, text="Save Settings")
                 self.btn_add_ok1.place(x=60, y=545, width=200, height=35)
