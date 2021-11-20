@@ -90,7 +90,7 @@ def main():
                 self.frame = Frame(self.tab1)
                 self.frame.place(x=60, y=245)
 
-                self.tree = ttk.Treeview(self.frame, columns=(1, 2, 3, 4, 5), height=12, show="headings")
+                self.tree = ttk.Treeview(self.frame, columns=(1, 2, 3, 4, 5), height=14, show="headings")
                 self.tree.pack(side='left')
                 self.tree.bind('<ButtonRelease-1>', selectItem)
 
@@ -112,20 +112,18 @@ def main():
                             str(self.camper_vans[i][2]), str(self.camper_vans[i][3]),
                             str(self.camper_vans[i][4])), tags=('odd',))
 
-                self.btn_add_ok1 = ttk.Button(self.tab1, text="Save Van Details")
-                self.btn_add_ok1.place(x=60, y=545, width=200, height=35)
-
                 with open('region.json', 'r') as openfile:
                     # Reading from json file
                     json_object = json.load(openfile)
 
-                self.region = json_object["Region"][0]
-                print(self.region)
+                self.region = json_object["Region"]
 
                 self.main_region = []
 
-                for each in self.region.keys():
+                for each in self.region:
                     self.main_region.append(each)
+
+                print(self.region)
 
                 self.lb12 = tk.Label(self.tab2, text="Region", font=("Helvetica", 10), bg='#EFEFEF')
                 self.lb12.place(x=60, y=100)
@@ -142,10 +140,13 @@ def main():
                 self.btn_add3 = ttk.Button(self.tab2, text="Add Region", command=self.add_region)
                 self.btn_add3.place(x=60, y=160, width=300, height=32)
 
+                self.btn_remove4 = ttk.Button(self.tab2, text="Remove Region", command=self.remove_region)
+                self.btn_remove4.place(x=359, y=160, width=300, height=32)
+
                 self.frame2 = Frame(self.tab2)
                 self.frame2.place(x=60, y=220)
 
-                self.tree2 = ttk.Treeview(self.frame2, columns=(1, 2), height=14, show="headings")
+                self.tree2 = ttk.Treeview(self.frame2, columns=(1, 2), height=16, show="headings")
                 self.tree2.pack(side='left')
 
                 self.val2 = ["Region", "Sub Region"]
@@ -159,12 +160,9 @@ def main():
                 self.scroll2 = ttk.Scrollbar(self.frame2, orient="vertical", command=self.tree2.yview)
                 self.scroll2.pack(side='right', fill='y')
 
-                for key, value in self.region.items():
-                    for each in value:
+                for value in self.region:
+                    for key, each in value.items():
                         self.tree2.insert('', 'end', values=(str(key), str(each)), tags=('odd',))
-
-                self.btn_add_ok2 = ttk.Button(self.tab2, text="Save Region Details")
-                self.btn_add_ok2.place(x=60, y=545, width=200, height=35)
 
             def add_van(self):
 
@@ -178,7 +176,7 @@ def main():
                 self.frame = Frame(self.tab1)
                 self.frame.place(x=60, y=245)
 
-                self.tree = ttk.Treeview(self.frame, columns=(1, 2, 3, 4, 5), height=12, show="headings")
+                self.tree = ttk.Treeview(self.frame, columns=(1, 2, 3, 4, 5), height=14, show="headings")
                 self.tree.pack(side='left')
 
                 self.val = ["Name", "Type", "Capacity", "Price", "Availability"]
@@ -199,6 +197,25 @@ def main():
                             str(self.camper_vans[i][2]), str(self.camper_vans[i][3]),
                             str(self.camper_vans[i][4])), tags=('odd',))
 
+                json_data = {"camper_vans": []}
+
+                for each in self.camper_vans:
+                    temp = {
+                        "name": str(each[0]),
+                        "type": str(each[1]),
+                        "capacity": str(each[2]),
+                        "price": str(each[3]),
+                        "availability": str(each[4])
+                    }
+                    json_data["camper_vans"].append(temp)
+
+                # Serializing json
+                json_object = json.dumps(json_data, indent=4)
+
+                # Writing to sample.json
+                with open("camper_vans.json", "w") as outfile:
+                    outfile.write(json_object)
+
                 messagebox.showinfo("Added", "Van details added successfully")
 
             def remove_van(self):
@@ -215,7 +232,7 @@ def main():
                     self.frame = Frame(self.tab1)
                     self.frame.place(x=60, y=245)
 
-                    self.tree = ttk.Treeview(self.frame, columns=(1, 2, 3, 4, 5), height=12, show="headings")
+                    self.tree = ttk.Treeview(self.frame, columns=(1, 2, 3, 4, 5), height=14, show="headings")
                     self.tree.pack(side='left')
 
                     self.val = ["Name", "Type", "Capacity", "Price", "Availability"]
@@ -236,11 +253,30 @@ def main():
                                 str(self.camper_vans[i][2]), str(self.camper_vans[i][3]),
                                 str(self.camper_vans[i][4])), tags=('odd',))
 
+                    json_data = {"camper_vans": []}
+
+                    for each in self.camper_vans:
+                        temp = {
+                            "name": str(each[0]),
+                            "type": str(each[1]),
+                            "capacity": str(each[2]),
+                            "price": str(each[3]),
+                            "availability": str(each[4])
+                        }
+                        json_data["camper_vans"].append(temp)
+
+                    # Serializing json
+                    json_object = json.dumps(json_data, indent=4)
+
+                    # Writing to sample.json
+                    with open("camper_vans.json", "w") as outfile:
+                        outfile.write(json_object)
+
                     messagebox.showinfo("Added", "Van details removed successfully")
 
             def add_region(self):
 
-                self.region[str(self.textfield12_add.get())] = str(self.textfield13_add.get()).split(",")
+                self.region.append({str(self.textfield12_add.get()): str(self.textfield13_add.get()).split(",")})
 
                 print(self.region)
 
@@ -249,7 +285,7 @@ def main():
                 self.frame2 = Frame(self.tab2)
                 self.frame2.place(x=60, y=220)
 
-                self.tree2 = ttk.Treeview(self.frame2, columns=(1, 2), height=14, show="headings")
+                self.tree2 = ttk.Treeview(self.frame2, columns=(1, 2), height=16, show="headings")
                 self.tree2.pack(side='left')
 
                 self.val2 = ["Region", "Sub Region"]
@@ -263,11 +299,70 @@ def main():
                 self.scroll2 = ttk.Scrollbar(self.frame2, orient="vertical", command=self.tree2.yview)
                 self.scroll2.pack(side='right', fill='y')
 
-                for key, value in self.region.items():
-                    for each in value:
+                for value in self.region:
+                    for key, each in value.items():
                         self.tree2.insert('', 'end', values=(str(key), str(each)), tags=('odd',))
 
+                json_data = {"Region": []}
+
+                for key in self.region:
+                    json_data["Region"].append(key)
+
+                # Serializing json
+                json_object = json.dumps(json_data, indent=4)
+
+                # Writing to sample.json
+                with open("region.json", "w") as outfile:
+                    outfile.write(json_object)
+
                 messagebox.showinfo("Added", "Region data added successfully")
+
+            def remove_region(self):
+
+                if messagebox.askquestion('Warning', 'Are you sure you remove the selected region data ?',
+                                          icon='warning') == 'yes':
+
+                    print(self.tree2.focus())
+
+                    del self.region[int(self.tree2.focus()[-1])-1]
+
+                    self.frame2.destroy()
+
+                    self.frame2 = Frame(self.tab2)
+                    self.frame2.place(x=60, y=220)
+
+                    self.tree2 = ttk.Treeview(self.frame2, columns=(1, 2), height=16, show="headings")
+                    self.tree2.pack(side='left')
+
+                    self.val2 = ["Region", "Sub Region"]
+
+                    for i in range(1, len(self.val2) + 1):
+                        self.tree2.heading(i, text=self.val2[i - 1])
+
+                    for i in range(1, len(self.val2) + 1):
+                        self.tree2.column(i, width=415, anchor='center')
+
+                    self.scroll2 = ttk.Scrollbar(self.frame2, orient="vertical", command=self.tree2.yview)
+                    self.scroll2.pack(side='right', fill='y')
+
+                    for value in self.region:
+                        for key, each in value.items():
+                            self.tree2.insert('', 'end', values=(str(key), str(each)), tags=('odd',))
+
+                    json_data = {"Region": []}
+
+                    for key in self.region:
+                        json_data["Region"].append(key)
+
+                    # Serializing json
+                    json_object = json.dumps(json_data, indent=4)
+
+                    # Writing to sample.json
+                    with open("region.json", "w") as outfile:
+                        outfile.write(json_object)
+
+                    messagebox.showinfo("Added", "Region data removed successfully")
+
 
         def exits():
 
