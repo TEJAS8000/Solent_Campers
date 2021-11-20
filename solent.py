@@ -150,16 +150,28 @@ def main():
                 self.region = json_object["Region"][0]
                 print(self.region)
 
+                self.main_region = []
+
+                for each in self.region.keys():
+                    self.main_region.append(each)
+
+                def callbackFunc(event):
+                    self.textfield13_add.destroy()
+                    self.textfield13_add = ttk.Combobox(self.tab3, font=("Helvetica", 10),
+                                                     values=self.region[str(self.textfield12_add.get())], state='readonly')
+                    self.textfield13_add.place(x=600, y=180, width=300)
+
                 self.lb12 = tk.Label(self.tab3, text="Driving Card Id", font=("Helvetica", 10), bg='#EFEFEF')
                 self.lb12.place(x=60, y=180)
 
-                self.textfield12_add = ttk.Entry(self.tab3, font=("Helvetica", 10))
+                self.textfield12_add = ttk.Combobox(self.tab3, font=("Helvetica", 10), values = self.main_region, state='readonly')
                 self.textfield12_add.place(x=180, y=180, width=300)
+                self.textfield12_add.bind("<<ComboboxSelected>>", callbackFunc)
 
                 self.lb13 = tk.Label(self.tab3, text="Travellers", font=("Helvetica", 10), bg='#EFEFEF')
                 self.lb13.place(x=500, y=180)
 
-                self.textfield13_add = ttk.Entry(self.tab3, font=("Helvetica", 10))
+                self.textfield13_add = ttk.Combobox(self.tab3, font=("Helvetica", 10), state='readonly')
                 self.textfield13_add.place(x=600, y=180, width=300)
 
         def exits():
