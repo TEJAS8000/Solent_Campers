@@ -139,8 +139,11 @@ def main():
                 self.textfield13_add = ttk.Combobox(self.tab2, font=("Helvetica", 10))
                 self.textfield13_add.place(x=600, y=100, width=300)
 
+                self.btn_add3 = ttk.Button(self.tab2, text="Add Region", command=self.add_region)
+                self.btn_add3.place(x=60, y=160, width=300, height=32)
+
                 self.frame2 = Frame(self.tab2)
-                self.frame2.place(x=60, y=180)
+                self.frame2.place(x=60, y=220)
 
                 self.tree2 = ttk.Treeview(self.frame2, columns=(1, 2), height=14, show="headings")
                 self.tree2.pack(side='left')
@@ -159,6 +162,9 @@ def main():
                 for key, value in self.region.items():
                     for each in value:
                         self.tree2.insert('', 'end', values=(str(key), str(each)), tags=('odd',))
+
+                self.btn_add_ok2 = ttk.Button(self.tab2, text="Save Region Details")
+                self.btn_add_ok2.place(x=60, y=545, width=200, height=35)
 
             def add_van(self):
 
@@ -193,7 +199,7 @@ def main():
                             str(self.camper_vans[i][2]), str(self.camper_vans[i][3]),
                             str(self.camper_vans[i][4])), tags=('odd',))
 
-                messagebox.showinfo("Added", "Camera settings added successfully")
+                messagebox.showinfo("Added", "Van details added successfully")
 
             def remove_van(self):
 
@@ -232,6 +238,37 @@ def main():
 
                     messagebox.showinfo("Added", "Van details removed successfully")
 
+            def add_region(self):
+
+                self.region[str(self.textfield12_add.get())] = str(self.textfield13_add.get()).split(",")
+
+                print(self.region)
+
+                self.frame2.destroy()
+
+                self.frame2 = Frame(self.tab2)
+                self.frame2.place(x=60, y=220)
+
+                self.tree2 = ttk.Treeview(self.frame2, columns=(1, 2), height=14, show="headings")
+                self.tree2.pack(side='left')
+
+                self.val2 = ["Region", "Sub Region"]
+
+                for i in range(1, len(self.val2) + 1):
+                    self.tree2.heading(i, text=self.val2[i - 1])
+
+                for i in range(1, len(self.val2) + 1):
+                    self.tree2.column(i, width=415, anchor='center')
+
+                self.scroll2 = ttk.Scrollbar(self.frame2, orient="vertical", command=self.tree2.yview)
+                self.scroll2.pack(side='right', fill='y')
+
+                for key, value in self.region.items():
+                    for each in value:
+                        self.tree2.insert('', 'end', values=(str(key), str(each)), tags=('odd',))
+
+                messagebox.showinfo("Added", "Region data added successfully")
+
         def exits():
 
             msgobj_close = messagebox.askquestion('Warning', 'Your changes have not been saved. would you '
@@ -247,7 +284,7 @@ def main():
         # window_user_login_2.attributes('-alpha', 0.97)
         User(window_user_login)
         # user_login_window.pack(side=tk.TOP, fill=tk.BOTH, expand=tk.TRUE)
-        window_user_login.title('Solent Campers')
+        window_user_login.title('Solent Campers Admin')
         window_user_login.geometry("1000x680")
         window_user_login.resizable(False, False)
         window_user_login.protocol('WM_DELETE_WINDOW', exits)
