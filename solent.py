@@ -139,27 +139,28 @@ def main():
                     # Reading from json file
                     json_object = json.load(openfile)
 
-                self.region = json_object["Region"][0]
+                self.region = json_object["Region"]
                 print(self.region)
 
-                self.main_region = []
+                self.main_region = {}
 
-                for each in self.region.keys():
-                    self.main_region.append(each)
+                for each in self.region:
+                    for key, value in each.items():
+                        self.main_region[key] = value
 
                 def callbackFunc(event):
                     print(event)
                     self.textfield13_add.destroy()
                     self.textfield13_add = ttk.Combobox(self.tab1, font=("Helvetica", 10),
-                                                        values=self.region[str(self.textfield12_add.get())],
+                                                        values=self.main_region[str(self.textfield12_add.get())],
                                                         state='readonly')
                     self.textfield13_add.place(x=600, y=490, width=300)
 
                 self.lb12 = tk.Label(self.tab1, text="Region", font=("Helvetica", 10), bg='#EFEFEF')
                 self.lb12.place(x=60, y=490)
 
-                self.textfield12_add = ttk.Combobox(self.tab1, font=("Helvetica", 10), values=self.main_region,
-                                                    state='readonly')
+                self.textfield12_add = ttk.Combobox(self.tab1, font=("Helvetica", 10),
+                                                    values=list(self.main_region.keys()), state='readonly')
                 self.textfield12_add.place(x=180, y=490, width=300)
                 self.textfield12_add.bind("<<ComboboxSelected>>", callbackFunc)
 
