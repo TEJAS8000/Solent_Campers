@@ -1,6 +1,7 @@
 import tkinter as tk
 import tkinter.ttk as ttk
 from tkinter import messagebox, Frame
+import json
 
 
 # sys.stdout = open('BACKUP/output.txt', 'w')
@@ -37,6 +38,15 @@ def main():
                 self.btn_remove1 = ttk.Button(self.tab1, text="Remove Camper Van")
                 self.btn_remove1.place(x=358, y=240, width=300, height=32)
 
+                with open('camper_vans.json', 'r') as openfile:
+                    # Reading from json file
+                    json_object = json.load(openfile)
+
+                self.camper_vans = []
+
+                for each in json_object["camper_vans"]:
+                    self.camper_vans.append([each["type"], each["capacity"], each["price"], each["availability"]])
+
                 self.frame = Frame(self.tab1)
                 self.frame.place(x=60, y=300)
 
@@ -53,6 +63,12 @@ def main():
 
                 self.scroll1 = ttk.Scrollbar(self.frame, orient="vertical", command=self.tree.yview)
                 self.scroll1.pack(side='right', fill='y')
+
+                for i in range(len(self.camper_vans)):
+                    self.tree.insert('', 'end', values=(
+                        str(self.camper_vans[i][0]), str(self.camper_vans[i][1]),
+                        str(self.camper_vans[i][2]),
+                        str(self.camper_vans[i][3])), tags=('odd',))
 
                 self.btn_add_ok1 = ttk.Button(self.tab1, text="Save Settings")
                 self.btn_add_ok1.place(x=60, y=545, width=200, height=35)
