@@ -1,8 +1,18 @@
 {
     "Region": [
         {
-            "Burrard": ["Bennett and Atlin", "Cassiar (Stikine)", "Cassiar (Skeena)", "Vancouver (City)"],
-            "New Westminster": ["Chilliwack","Delta"]
+            "Burrard": [
+                "Bennett and Atlin",
+                "Cassiar (Stikine)",
+                "Cassiar (Skeena)",
+                "Vancouver (City)"
+            ]
+        },
+        {
+            "New Westminster": [
+                "Chilliwack",
+                "Delta"
+            ]
         }
     ]
 }
