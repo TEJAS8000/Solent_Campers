@@ -33,12 +33,6 @@ def main():
                 tab_control.add(self.tab3, text='Details')
                 tab_control.pack(expand=500, fill="both")
 
-                self.btn_add1 = ttk.Button(self.tab1, text="Add Camper Van")
-                self.btn_add1.place(x=60, y=240, width=300, height=32)
-
-                self.btn_remove1 = ttk.Button(self.tab1, text="Remove Camper Van")
-                self.btn_remove1.place(x=358, y=240, width=300, height=32)
-
                 with open('camper_vans.json', 'r') as openfile:
                     # Reading from json file
                     json_object = json.load(openfile)
@@ -50,28 +44,28 @@ def main():
                                              each["availability"]])
 
                 self.lb1_add = tk.Label(self.tab1, text="Name", font=("Helvetica", 10), bg='#EFEFEF')
-                self.lb1_add.place(x=60, y=40)
+                self.lb1_add.place(x=60, y=70)
 
                 self.textfield1_add = ttk.Combobox(self.tab1, font=("Helvetica", 10), state='readonly')
-                self.textfield1_add.place(x=180, y=40, width=280)
+                self.textfield1_add.place(x=180, y=70, width=280)
 
                 self.lb2_add = tk.Label(self.tab1, text="Type", font=("Helvetica", 10), bg='#EFEFEF')
-                self.lb2_add.place(x=500, y=40)
+                self.lb2_add.place(x=500, y=70)
 
                 self.textfield2_add = ttk.Combobox(self.tab1, font=("Helvetica", 10), state='readonly')
-                self.textfield2_add.place(x=620, y=40, width=280)
+                self.textfield2_add.place(x=620, y=70, width=280)
 
                 self.lb3_add = tk.Label(self.tab1, text="Capacity", font=("Helvetica", 10), bg='#EFEFEF')
-                self.lb3_add.place(x=60, y=80)
+                self.lb3_add.place(x=60, y=100)
 
                 self.textfield3_add = ttk.Combobox(self.tab1, font=("Helvetica", 10), state='readonly')
-                self.textfield3_add.place(x=180, y=80, width=280)
+                self.textfield3_add.place(x=180, y=100, width=280)
 
                 self.lb4_add = tk.Label(self.tab1, text="Price", font=("Helvetica", 10), bg='#EFEFEF')
-                self.lb4_add.place(x=500, y=80)
+                self.lb4_add.place(x=500, y=100)
 
                 self.textfield4_add = ttk.Combobox(self.tab1, font=("Helvetica", 10), state='readonly')
-                self.textfield4_add.place(x=620, y=80, width=280)
+                self.textfield4_add.place(x=620, y=100, width=280)
 
                 def selectItem(a):
 
@@ -84,9 +78,9 @@ def main():
                     self.textfield4_add.set(self.tree.item(cur_item)["values"][3])
 
                 self.frame = Frame(self.tab1)
-                self.frame.place(x=60, y=300)
+                self.frame.place(x=60, y=180)
 
-                self.tree = ttk.Treeview(self.frame, columns=(1, 2, 3, 4, 5), height=10, show="headings")
+                self.tree = ttk.Treeview(self.frame, columns=(1, 2, 3, 4, 5), height=7, show="headings")
                 self.tree.pack(side='left')
                 self.tree.bind('<ButtonRelease-1>', selectItem)
 
@@ -96,7 +90,7 @@ def main():
                     self.tree.heading(i, text=self.val[i - 1])
 
                 for i in range(1, len(self.val) + 1):
-                    self.tree.column(i, width=180, anchor='center')
+                    self.tree.column(i, width=165, anchor='center')
 
                 self.scroll1 = ttk.Scrollbar(self.frame, orient="vertical", command=self.tree.yview)
                 self.scroll1.pack(side='right', fill='y')
@@ -108,40 +102,37 @@ def main():
                             str(self.camper_vans[i][2]), str(self.camper_vans[i][3]),
                             str(self.camper_vans[i][4])), tags=('odd',))
 
-                self.btn_add_ok1 = ttk.Button(self.tab1, text="Save Settings")
-                self.btn_add_ok1.place(x=60, y=545, width=200, height=35)
+                self.lb7 = tk.Label(self.tab1, text="User Name", font=("Helvetica", 10), bg='#EFEFEF')
+                self.lb7.place(x=60, y=400)
 
-                self.lb7 = tk.Label(self.tab3, text="User Name", font=("Helvetica", 10), bg='#EFEFEF')
-                self.lb7.place(x=60, y=60)
+                self.textfield7_add = ttk.Entry(self.tab1, font=("Helvetica", 10))
+                self.textfield7_add.place(x=180, y=400, width=720)
 
-                self.textfield7_add = ttk.Entry(self.tab3, font=("Helvetica", 10))
-                self.textfield7_add.place(x=180, y=60, width=720)
+                self.lb8 = tk.Label(self.tab1, text="Driving Card Id", font=("Helvetica", 10), bg='#EFEFEF')
+                self.lb8.place(x=60, y=430)
 
-                self.lb8 = tk.Label(self.tab3, text="Driving Card Id", font=("Helvetica", 10), bg='#EFEFEF')
-                self.lb8.place(x=60, y=90)
+                self.textfield8_add = ttk.Entry(self.tab1, font=("Helvetica", 10))
+                self.textfield8_add.place(x=180, y=430, width=300)
 
-                self.textfield8_add = ttk.Entry(self.tab3, font=("Helvetica", 10))
-                self.textfield8_add.place(x=180, y=90, width=300)
+                self.lb9 = tk.Label(self.tab1, text="Travellers", font=("Helvetica", 10), bg='#EFEFEF')
+                self.lb9.place(x=500, y=430)
 
-                self.lb9 = tk.Label(self.tab3, text="Travellers", font=("Helvetica", 10), bg='#EFEFEF')
-                self.lb9.place(x=500, y=90)
+                self.textfield9_add = ttk.Entry(self.tab1, font=("Helvetica", 10))
+                self.textfield9_add.place(x=600, y=430, width=300)
 
-                self.textfield9_add = ttk.Entry(self.tab3, font=("Helvetica", 10))
-                self.textfield9_add.place(x=600, y=90, width=300)
+                self.lb10 = tk.Label(self.tab1, text="Journey Date", font=("Helvetica", 10), bg='#EFEFEF')
+                self.lb10.place(x=60, y=460)
 
-                self.lb10 = tk.Label(self.tab3, text="Journey Date", font=("Helvetica", 10), bg='#EFEFEF')
-                self.lb10.place(x=60, y=120)
-
-                self.textfield10_add = DateEntry(self.tab3, font=("Helvetica", 10), state='readonly',
+                self.textfield10_add = DateEntry(self.tab1, font=("Helvetica", 10), state='readonly',
                                                  date_pattern='mm/dd/yyyy', anchor='center')
-                self.textfield10_add.place(x=180, y=120, width=300)
+                self.textfield10_add.place(x=180, y=460, width=300)
 
-                self.lb11 = tk.Label(self.tab3, text="Return Date", font=("Helvetica", 10), bg='#EFEFEF')
-                self.lb11.place(x=500, y=120)
+                self.lb11 = tk.Label(self.tab1, text="Return Date", font=("Helvetica", 10), bg='#EFEFEF')
+                self.lb11.place(x=500, y=460)
 
-                self.textfield11_add = DateEntry(self.tab3, font=("Helvetica", 10), state='readonly',
+                self.textfield11_add = DateEntry(self.tab1, font=("Helvetica", 10), state='readonly',
                                                  date_pattern='mm/dd/yyyy', anchor='center')
-                self.textfield11_add.place(x=600, y=120, width=300)
+                self.textfield11_add.place(x=600, y=460, width=300)
 
                 with open('region.json', 'r') as openfile:
                     # Reading from json file
@@ -156,23 +147,29 @@ def main():
                     self.main_region.append(each)
 
                 def callbackFunc(event):
+                    print(event)
                     self.textfield13_add.destroy()
-                    self.textfield13_add = ttk.Combobox(self.tab3, font=("Helvetica", 10),
-                                                     values=self.region[str(self.textfield12_add.get())], state='readonly')
-                    self.textfield13_add.place(x=600, y=180, width=300)
+                    self.textfield13_add = ttk.Combobox(self.tab1, font=("Helvetica", 10),
+                                                        values=self.region[str(self.textfield12_add.get())],
+                                                        state='readonly')
+                    self.textfield13_add.place(x=600, y=490, width=300)
 
-                self.lb12 = tk.Label(self.tab3, text="Driving Card Id", font=("Helvetica", 10), bg='#EFEFEF')
-                self.lb12.place(x=60, y=180)
+                self.lb12 = tk.Label(self.tab1, text="Region", font=("Helvetica", 10), bg='#EFEFEF')
+                self.lb12.place(x=60, y=490)
 
-                self.textfield12_add = ttk.Combobox(self.tab3, font=("Helvetica", 10), values = self.main_region, state='readonly')
-                self.textfield12_add.place(x=180, y=180, width=300)
+                self.textfield12_add = ttk.Combobox(self.tab1, font=("Helvetica", 10), values=self.main_region,
+                                                    state='readonly')
+                self.textfield12_add.place(x=180, y=490, width=300)
                 self.textfield12_add.bind("<<ComboboxSelected>>", callbackFunc)
 
-                self.lb13 = tk.Label(self.tab3, text="Travellers", font=("Helvetica", 10), bg='#EFEFEF')
-                self.lb13.place(x=500, y=180)
+                self.lb13 = tk.Label(self.tab1, text="Sub Region", font=("Helvetica", 10), bg='#EFEFEF')
+                self.lb13.place(x=500, y=490)
 
-                self.textfield13_add = ttk.Combobox(self.tab3, font=("Helvetica", 10), state='readonly')
-                self.textfield13_add.place(x=600, y=180, width=300)
+                self.textfield13_add = ttk.Combobox(self.tab1, font=("Helvetica", 10), state='readonly')
+                self.textfield13_add.place(x=600, y=490, width=300)
+
+                self.btn_add_ok1 = ttk.Button(self.tab1, text="Save Settings")
+                self.btn_add_ok1.place(x=60, y=545, width=200, height=35)
 
         def exits():
 
