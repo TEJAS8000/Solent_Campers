@@ -2,6 +2,8 @@ import tkinter as tk
 import tkinter.ttk as ttk
 from tkinter import messagebox, Frame
 import json
+import csv
+
 
 # sys.stdout = open('BACKUP/output.txt', 'w')
 # sys.stderr = open('BACKUP/error.txt', 'w')
@@ -164,6 +166,35 @@ def main():
                     for key, each in value.items():
                         self.tree2.insert('', 'end', values=(str(key), str(each)), tags=('odd',))
 
+                self.frame3 = Frame(self.tab3)
+                self.frame3.place(x=60, y=60)
+
+                self.tree3 = ttk.Treeview(self.frame3, columns=(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11), height=24,
+                                          show="headings")
+                self.tree3.pack(side='left')
+
+                self.val3 = ['Van Name', 'Van type', 'Van capacity', 'Van Price', 'User Name', 'Driver ID Number',
+                             'No Of Travellers', 'Journey Date', 'Return Date', 'Region', 'Sub Region']
+
+                for i in range(1, len(self.val3) + 1):
+                    self.tree3.heading(i, text=self.val3[i - 1])
+
+                for i in range(1, len(self.val3) + 1):
+                    self.tree3.column(i, width=79, anchor='center')
+
+                self.scroll3 = ttk.Scrollbar(self.frame3, orient="vertical", command=self.tree3.yview)
+                self.scroll3.pack(side='right', fill='y')
+
+                with open('bookings.csv') as csv_file:
+                    csv_reader = csv.reader(csv_file, delimiter=',')
+                    line_count = 0
+                    for row in csv_reader:
+                        line_count += 1
+                        if line_count > 1 and len(row) > 2:
+                            self.tree3.insert('', 'end', values=(str(row[0]), str(row[1]), str(row[2]), str(row[3]),
+                                                                 str(row[4]), str(row[5]), str(row[6]), str(row[7]),
+                                                                 str(row[8]), str(row[9]), str(row[10])), tags=('odd',))
+
             def add_van(self):
 
                 self.camper_vans.append([str(self.textfield1_add.get()), str(self.textfield2_add.get()),
@@ -225,7 +256,7 @@ def main():
 
                     print(self.tree.focus())
 
-                    del self.camper_vans[int(self.tree.focus()[-1])-1]
+                    del self.camper_vans[int(self.tree.focus()[-1]) - 1]
 
                     self.frame.destroy()
 
@@ -324,7 +355,7 @@ def main():
 
                     print(self.tree2.focus())
 
-                    del self.region[int(self.tree2.focus()[-1])-1]
+                    del self.region[int(self.tree2.focus()[-1]) - 1]
 
                     self.frame2.destroy()
 
@@ -363,11 +394,9 @@ def main():
 
                     messagebox.showinfo("Added", "Region data removed successfully")
 
-
         def exits():
 
-            msgobj_close = messagebox.askquestion('Warning', 'Your changes have not been saved. would you '
-                                                             'like to Exit ?',
+            msgobj_close = messagebox.askquestion('Warning', 'Would you like to Exit ?',
                                                   icon='warning')
             if msgobj_close == "yes":
                 exit(0)
